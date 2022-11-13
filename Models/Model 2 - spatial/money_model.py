@@ -1,5 +1,13 @@
 import mesa
 
+def compute_gini(model):
+    agent_wealths = [agent.wealth for agent in model.schedule.agents]
+    x = sorted(agent_wealths)
+    N = model.num_agents
+    B = sum(xi * (N - i) for i, xi in enumerate(x)) / (N * sum(x))
+    return 1 + (1/N) - 2 * B
+
+
 class MoneyAgent(mesa.Agent):
     """ an agent with fixed initial wealth."""
 
@@ -41,6 +49,7 @@ class MoneyModel(mesa.Model):
         self.num_agents = N
         self.schedule = mesa.time.RandomActivation(self)
         self.grid = mesa.space.MultiGrid(width, height, True)
+        self.running = True
 
         # Create N agents
         for i in range(self.num_agents):
@@ -52,7 +61,13 @@ class MoneyModel(mesa.Model):
             y = self.random.randrange(self.grid.height)
             self.grid.place_agent(a, (x, y))
 
+        self.datacollector = mesa.DataCollector(
+            model_reporters={"Gini": compute_gini},
+            agent_reporters={"Wealth": "wealth"}
+        )
+
     def step(self):
+        self.datacollector.collect(self)
         self.schedule.step()
 
 
