@@ -18,3 +18,9 @@ Running `secondmodel.py` it is possible to see the final state of the grid of a 
 Runnin `secondmodel-batch.py` it is possible a graph that shows how the Gini's coefficient changes given the increase of the population. It is only possible because it uses a function that generates different models (with N getting larger everytime) and analyses it's data all at the same time. So it is possible to get a graph like this:
 
 ![alt text](Figure_1.png)
+
+## Folder: Model 3 - visual analysis
+
+Using this framework it is possible to implement a visual interface that shows what happens to the system as the steps go by. Running `money_model_viz` will make a tab open in your browser and it will be possible to control the steps, see what is the current state of the system, and see a live graph that shows the Gini's coefficient. The tab will look like this:
+
+![alt text](Figure_2.png)
